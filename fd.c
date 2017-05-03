@@ -9,14 +9,14 @@
 
 //there are 25 stages in cascade classifier
 //here records how many Haar filters in each stages (total 2913)
-static unsigned char filters_in_each_stages[25] =
+static unsigned char filters_in_each_stages[FD_TOTAL_STAGES] =
 { 9, 16, 27, 32, 52, 53, 62, 72, 83, 91, 99, 115, 127, 135,
 136, 137, 159, 155, 169, 196, 197, 181, 199, 211, 200 };
 
 //there are total 2913 filters in the whole classifier
 //each filter needs 15 parameters to describe 1 Haar features (12 for shape, 3 for weights)
 //x1, y1, w1, h1, x2, y2, w2, h2, x3, y3, w3, h3
-static unsigned char shape_in_each_filters[34956] = //34956 = 2913*12
+static unsigned char shape_in_each_filters[FD_TOTAL_FILTERS * 12] = //34956 = 2913*12
 { 6, 4, 12, 9, 6, 7, 12, 3, 0, 0, 0, 0, 6, 4, 12, 7, 10, 4, 4, 7, 0, 0, 0, 0, 3, 9, 18, 9, 3, 12, 18, 3, 0, 0, 0, 0, 8, 18, 9, 6,
 8, 20, 9, 2, 0, 0, 0, 0, 3, 5, 4, 19, 5, 5, 2, 19, 0, 0, 0, 0, 6, 5, 12, 16, 6, 13, 12, 8, 0, 0, 0, 0, 5, 8, 12, 6, 5, 11, 12, 3,
 0, 0, 0, 0, 11, 14, 4, 10, 11, 19, 4, 5, 0, 0, 0, 0, 4, 0, 7, 6, 4, 3, 7, 3, 0, 0, 0, 0, 6, 6, 12, 6, 6, 8, 12, 2, 0, 0, 0, 0,
@@ -893,7 +893,7 @@ static unsigned char shape_in_each_filters[34956] = //34956 = 2913*12
 16, 2, 3, 20, 17, 2, 1, 20, 0, 0, 0, 0, 0, 13, 24, 8, 0, 17, 24, 4, 0, 0, 0, 0, 9, 1, 6, 22, 12, 1, 3, 11, 9, 12, 3, 11 };
 
 //weight1, weight2, weight3
-static short weights_in_each_filters[8739] = //8739 = 2913*3
+static short weights_in_each_filters[FD_TOTAL_FILTERS * 3] = //8739 = 2913*3
 { -4096, 12288, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 8192, 0, -4096, 8192, 0, -4096, 8192, 0, -4096, 8192, 0,
 -4096, 8192, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 8192, 0, -4096, 12288, 0,
 -4096, 12288, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 8192, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 12288, 0, -4096, 12288, 0,
@@ -1261,7 +1261,7 @@ static short weights_in_each_filters[8739] = //8739 = 2913*3
 -4096, 8192, 8192 };
 
 //each filter has 1 related threshold
-static short threshold_for_each_filters[2913] =
+static short threshold_for_each_filters[FD_TOTAL_FILTERS] =
 { -129, 50, 89, 23, 61, 407, 11, -77, 24, -86, 83, 87, 375, 148, -78, 33, 75, -28, -40, 64, -84, -563, 58, 41, 374, 285, 129, 58, 59, -12,
 134, -29, 206, 192, -284, -200, 347, -7, 473, -210, -174, 1522, 79, 71, 162, -37, 7, 123, -322, 8, 110, -184, -269, 64, 596, 25, 27, 75, 81, -1136,
 37, -154, 75, -45, 138, -146, -46, -267, -173, 7, -529, 93, -139, 107, 91, -23, 178, 234, 9, 53, -108, -23, -67, -279, 163, 770, 319, 0, 348, 36,
@@ -1363,7 +1363,7 @@ static short threshold_for_each_filters[2913] =
 
 //each filter also has 2 related nodes, alpha1 and alpha2 (opencv approach)
 //when Haar value pass threshold it would return alpha1 else it return alpha2
-static short alpha1_for_each_filters[2913] =
+static short alpha1_for_each_filters[FD_TOTAL_FILTERS] =
 { 534, -477, -386, -223, -199, 142, -432, -378, -219, 318, -414, -497, -142, 68, -684, -277, -90, 237, 296, -107, 373, 286, -89, -155, 99, -259, -421, 118, -167, -357,
 -129, 93, -77, -103, 269, -416, 72, -259, -42, 388, 451, -80, -25, -103, 43, 227, -95, 16, -447, -240, -13, -468, 295, -400, -147, -373, -213, -80, -111, 381,
 -246, -626, 44, 124, 45, -501, 253, -660, 368, -126, -596, -216, -369, 46, 17, 100, 37, 63, -193, -93, -594, 108, 284, -851, -311, -123, -276, -307, -112, -47,
@@ -1463,7 +1463,7 @@ static short alpha1_for_each_filters[2913] =
 86, -46, -251, -8, 298, 163, -59, -56, 41, -43, 66, -196, -69, 19, -9, -45, 48, 180, 17, 192, 49, -12, -114, 166, -14, -39, -156, -12, 28, -204,
 -48, -34, 124 };
 
-static short alpha2_for_each_filters[2913] =
+static short alpha2_for_each_filters[FD_TOTAL_FILTERS] =
 { -567, 339, 272, 301, 322, -479, 112, 113, 218, -402, 302, 179, 442, -558, 116, 137, 238, -169, -76, 347, -50, -135, 292, 197, -387, 375, 256, -408, 212, 108,
 269, -344, 371, 310, -117, 39, -400, 59, 327, -77, -13, 393, 239, 246, -757, -112, 102, -677, 72, 59, 275, 25, -274, 196, 353, 132, 149, 299, 244, -35,
 70, 60, -343, -230, -418, 46, -97, 63, -75, 161, 13, 99, 25, -322, -609, -70, -291, -324, 69, 181, 9, -12, -89, 54, 277, 359, 189, 96, 323, 117,
@@ -1564,7 +1564,7 @@ static short alpha2_for_each_filters[2913] =
 55, 430, 0 };
 
 //finally each stage has 1 related threshold
-static short threshold_for_each_stages[25] =
+static short threshold_for_each_stages[FD_TOTAL_STAGES] =
 { -1290, -1275, -1191, -1140, -1122, -1057, -1029, -994, -983, -933, -990, -951, -912, -947, -877, -899, -920, -868, -829, -821, -839, -849,
 -833, -862, -766 };
 
@@ -1585,7 +1585,7 @@ bool rects_predicate
 {
 	unsigned short minw = (r1->w < r2->w) ? r1->w : r2->w;
 	unsigned short minh = (r1->h < r2->h) ? r1->h : r2->h;
-	float delta = GROUP_EPS * (minw + minh) * 0.5;
+	float delta = GROUP_EPS * (minw + minh) * 0.5f;
 	return abs(r1->x - r2->x) <= delta &&
 		   abs(r1->y - r2->y) <= delta &&
 		   abs(r1->x + r1->w - r2->x - r2->w) <= delta &&
@@ -1971,6 +1971,7 @@ vector_lincoln* face_detect
 		unsigned int* roi_corners_in_sqintimg[4];
 		set_roi_and_shape_corner(&roi_corners_in_intimg, &roi_corners_in_sqintimg, scaled_img_size.width);
 
+        const int VJ_EMPIRICAL_DETECTION_ROI_AREA = VJ_EMPIRICAL_DETECTION_ROI * VJ_EMPIRICAL_DETECTION_ROI;
 		unsigned short roi_moving_range_w = scaled_img_size.width - VJ_EMPIRICAL_DETECTION_ROI + 1;
 		unsigned short roi_moving_range_h = scaled_img_size.height - VJ_EMPIRICAL_DETECTION_ROI + 1;
 		unsigned short i = 0;

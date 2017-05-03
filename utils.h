@@ -16,10 +16,7 @@
 #include <stdbool.h>
 #define IMG_WIDTH 640
 #define IMG_HEIGHT 480
-#define MEMORYPOOL_TOTAL_SIZE 0x900000 //9Mbytes
-/* note the reserve size is for all the initialization(face detection is primer) */
-/* the memory pool current alloc size should be reset to this number when infinite loop is applied */
-#define MEMORYPOOL_RESERVE_SIZE 0x300000 //3Mbytes;
+#define MEMORYPOOL_TOTAL_SIZE 0x300000 //3Mbytes
 #define VECTOR_INIT_SIZE 512
 
 typedef struct

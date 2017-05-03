@@ -27,7 +27,6 @@ extern "C" {
 #define GROUP_THRESHOLD 1
 //below are all constant (do not change them, they are related to the fd buffer)
 #define VJ_EMPIRICAL_DETECTION_ROI 24
-#define VJ_EMPIRICAL_DETECTION_ROI_AREA 576
 #define FD_TOTAL_STAGES 25
 #define FD_TOTAL_FILTERS 2913
 

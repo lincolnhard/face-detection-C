@@ -20,8 +20,8 @@ int main
 	Mat gray;
 	VideoCapture cap;
 	cap.open(0);
-	cap.set(CV_CAP_PROP_FRAME_WIDTH,640);
-	cap.set(CV_CAP_PROP_FRAME_HEIGHT,480);
+    cap.set(CV_CAP_PROP_FRAME_WIDTH, IMG_WIDTH);
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT, IMG_HEIGHT);
 
 	init_face_detection();
 	while(1)
@@ -35,7 +35,7 @@ int main
 			rectangle(im, Rect(faceroi.x, faceroi.y, faceroi.w, faceroi.h), Scalar(0, 255, 0));
 			}
 		imshow("demo", im);
-		if(waitKey(10) == 27)
+		if(waitKey(10) == 27) //esc
 			{
 			break;
 			}

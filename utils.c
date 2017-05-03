@@ -19,8 +19,12 @@ void init_memory_pool_lincoln
 	void
 	)
 {
+#ifdef WIN32
+    pool_starting_address = _aligned_malloc(MEMORYPOOL_TOTAL_SIZE, 0x20);
+#else
 	posix_memalign(&pool_starting_address, 0x20, MEMORYPOOL_TOTAL_SIZE);
-	if(pool_starting_address == NULL)
+#endif
+    if(pool_starting_address == NULL)
 		{
 		puts(" failed creating memory pool ");
 		exit(1);
@@ -57,7 +61,11 @@ void free_memory_pool_lincoln
 	void
 	)
 {
+#ifdef WIN32
+    _aligned_free(pool_starting_address);
+#else
 	free(pool_starting_address);
+#endif
 }
 
 //the vector here stores the copy of object instead of address
@@ -241,8 +249,10 @@ unsigned int int_sqrt
 	unsigned int value
 	)
 {
-	int i;
-	unsigned int a = 0, b = 0, c = 0;
+	int i = 0;
+    unsigned int a = 0;
+    unsigned int b = 0;
+    unsigned int c = 0;
 	unsigned int v = value;
 	for(i = 0; i < 16; ++i)
 		{
@@ -279,8 +289,9 @@ void resize_interpolation
 {
 	int dstW = (int)dstsize.width;
 	int dstH = (int)dstsize.height;
-	int srcW, srcH;
-	const unsigned char* startaddress;
+    int srcW = 0;
+    int srcH = 0;
+	const unsigned char* startaddress = NULL;
 	if(srcroi == NULL)
 		{
 		srcW = IMG_WIDTH;
@@ -293,19 +304,17 @@ void resize_interpolation
 		srcH = (int)srcroi->h;
 		startaddress = src + srcroi->x + srcroi->y * IMG_WIDTH;
 		}
-	int i, j;
+    int i = 0;
+    int j = 0;
 	int width_ratio = (int)((srcW << 16) / dstW) + 1;
 	int height_ratio = (int)((srcH << 16) / dstH) + 1;
-	unsigned char* dst_row_temp;
-	const unsigned char* src_row_temp;
 	for(j = 0; j < dstH; ++j)
 		{
-		dst_row_temp = dst + dstW * j;
-		src_row_temp = startaddress + IMG_WIDTH * ((j * height_ratio) >> 16);
+        unsigned char* dst_row_temp = dst + dstW * j;
+        const unsigned char* src_row_temp = startaddress + IMG_WIDTH * ((j * height_ratio) >> 16);
 		for(i = 0; i < dstW; ++i)
 			{
-			int srcidx = (i * width_ratio) >> 16;
-			dst_row_temp[i] = src_row_temp[srcidx];
+            dst_row_temp[i] = src_row_temp[(i * width_ratio) >> 16];
 			}
 		}
 }
